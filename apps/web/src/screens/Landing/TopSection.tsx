@@ -35,7 +35,7 @@ export default function TopSection() {
               className="bg-white text-black hover:bg-gray-300 font-semibold px-8 py-4 rounded-full"
               asChild
             >
-              <Link href="/home">Get Started</Link>
+              <Link href="/dashboard">Get Started</Link>
             </Button>
             <Button
               size="lg"

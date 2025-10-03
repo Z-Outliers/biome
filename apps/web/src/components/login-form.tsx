@@ -22,9 +22,9 @@ export function LoginForm({
     try {
       const res = await authClient.signIn.social({
         provider: "google",
-        callbackURL: `${window.location.origin}/home`,
+        callbackURL: `${window.location.origin}/dashboard`,
       });
-      router.push('/home');
+      router.push('/dashboard');
     } catch (error) {
       console.error("Login error", error);
     }
@@ -33,7 +33,7 @@ export function LoginForm({
   const loginAsGuest = async () => {
     try {
       const res = await authClient.signIn.anonymous();
-      router.push('/home');
+      router.push('/dashboard');
     } catch (error) {
       console.error("Login error", error);
     }
