@@ -6,7 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SearchIcon, ImageUp, Mic, Sparkles } from "lucide-react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,9 +24,9 @@ export default function Search() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
-  setSubmittedQuery(searchQuery.trim());
+    setSubmittedQuery(searchQuery.trim());
     setIsLoading(true);
-  setOpen(true);
+    setOpen(true);
     // UI-only: simulate a short loading state
     setTimeout(() => setIsLoading(false), 800);
   };
@@ -99,7 +104,10 @@ export default function Search() {
       </form>
 
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="bottom" className="dashboard-theme h-[80vh] w-full max-w-none sm:rounded-t-lg">
+        <SheetContent
+          side="bottom"
+          className="dashboard-theme h-[80vh] w-full max-w-none sm:rounded-t-lg"
+        >
           <SheetHeader className="p-4 pb-2">
             <SheetTitle>
               Results{submittedQuery ? ` for "${submittedQuery}"` : ""}
@@ -115,7 +123,9 @@ export default function Search() {
                     <CardTitle>Summary</CardTitle>
                   </div>
                   {!isLoading && submittedQuery && (
-                    <p className="text-xs text-muted-foreground">Auto-generated overview</p>
+                    <p className="text-xs text-muted-foreground">
+                      Auto-generated overview
+                    </p>
                   )}
                 </CardHeader>
                 <CardContent>
@@ -128,28 +138,42 @@ export default function Search() {
                   ) : (
                     <div className="space-y-4">
                       <p className="text-muted-foreground">
-                        Here's a concise overview of the most relevant information related to{" "}
-                        <span className="font-medium text-foreground">"{submittedQuery}"</span>.
-                        This section will summarize key findings, trends, and noteworthy references.
+                        Here's a concise overview of the most relevant
+                        information related to{" "}
+                        <span className="font-medium text-foreground">
+                          "{submittedQuery}"
+                        </span>
+                        . This section will summarize key findings, trends, and
+                        noteworthy references.
                       </p>
 
                       {/* Highlights */}
                       <div className="flex flex-wrap items-center gap-2">
-                        <Badge className="border border-[var(--primary)] text-[color:var(--primary)] bg-transparent">Key Finding</Badge>
-                        <Badge className="border border-[var(--primary)] text-[color:var(--primary)] bg-transparent">Top Author</Badge>
-                        <Badge className="border border-[var(--primary)] text-[color:var(--primary)] bg-transparent">Trending Topic</Badge>
+                        <Badge className="border border-[var(--primary)] text-[color:var(--primary)] bg-transparent">
+                          Key Finding
+                        </Badge>
+                        <Badge className="border border-[var(--primary)] text-[color:var(--primary)] bg-transparent">
+                          Top Author
+                        </Badge>
+                        <Badge className="border border-[var(--primary)] text-[color:var(--primary)] bg-transparent">
+                          Trending Topic
+                        </Badge>
                       </div>
 
                       {/* Confidence meter */}
                       <div className="flex items-center gap-3">
-                        <span className="text-xs text-muted-foreground">Confidence</span>
+                        <span className="text-xs text-muted-foreground">
+                          Confidence
+                        </span>
                         <div className="h-2 flex-1 rounded-full bg-muted">
                           <div
                             className="h-2 rounded-full bg-[var(--primary)]"
                             style={{ width: "72%" }}
                           />
                         </div>
-                        <span className="text-xs font-medium text-foreground">72%</span>
+                        <span className="text-xs font-medium text-foreground">
+                          72%
+                        </span>
                       </div>
                     </div>
                   )}
@@ -159,7 +183,9 @@ export default function Search() {
 
             {/* Documents list */}
             <section className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground">Documents</h3>
+              <h3 className="text-sm font-medium text-muted-foreground">
+                Documents
+              </h3>
               {isLoading ? (
                 <div className="grid gap-3">
                   {Array.from({ length: 3 }).map((_, i) => (
@@ -173,16 +199,23 @@ export default function Search() {
               ) : (
                 <div className="grid gap-3">
                   {documents.map((doc) => (
-                    <Card key={doc.id} className="hover:bg-muted/30 transition-colors">
+                    <Card
+                      key={doc.id}
+                      className="hover:bg-muted/30 transition-colors"
+                    >
                       <CardHeader className="pb-2">
                         <div className="flex items-start justify-between gap-2">
-                          <CardTitle className="text-base leading-snug">{doc.title}</CardTitle>
+                          <CardTitle className="text-base leading-snug">
+                            {doc.title}
+                          </CardTitle>
                           <Badge variant="secondary">{doc.source}</Badge>
                         </div>
                       </CardHeader>
                       <CardContent className="text-sm text-muted-foreground">
                         <p className="line-clamp-2">{doc.snippet}</p>
-                        <div className="mt-3 text-xs text-muted-foreground/80">{doc.year}</div>
+                        <div className="mt-3 text-xs text-muted-foreground/80">
+                          {doc.year}
+                        </div>
                       </CardContent>
                     </Card>
                   ))}

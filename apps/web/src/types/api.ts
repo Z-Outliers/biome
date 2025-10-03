@@ -1,4 +1,4 @@
-import { PaperPreview } from "./paper"
+import { PaperPreview } from "./paper";
 
 export type ApiError = {
   message: string;

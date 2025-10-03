@@ -16,7 +16,6 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  
   const loginWithGoogle = async () => {
     try {
       await authClient.signIn.social({
@@ -64,7 +63,11 @@ export function LoginForm({
               </svg>
               Continue with Google
             </Button>
-            <Button variant="secondary" className="w-full h-12" onClick={loginAsGuest}>
+            <Button
+              variant="secondary"
+              className="w-full h-12"
+              onClick={loginAsGuest}
+            >
               <UserIcon className="w-5 h-5 mr-2" />
               Continue as Guest
             </Button>

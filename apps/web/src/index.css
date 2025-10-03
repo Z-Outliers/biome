@@ -153,13 +153,13 @@
   /* Accent and ring harmonized with primary */
   --accent: #67f07a;
   --accent-foreground: oklch(0.205 0 0);
-  --ring: color-mix(in oklch, var(--primary) 40%, white);
+  --ring: color-mix(in srgb, var(--primary) 40%, white);
 
   /* Sidebar theme variables using brand colors */
-  --sidebar-accent: color-mix(in oklch, var(--primary) 12%, var(--sidebar));
+  --sidebar-accent: color-mix(in srgb, var(--primary) 12%, var(--sidebar));
   --sidebar-accent-foreground: var(--sidebar-foreground);
-  --sidebar-border: color-mix(in oklch, var(--primary) 20%, var(--border));
-  --sidebar-ring: color-mix(in oklch, var(--primary) 40%, var(--ring));
+  --sidebar-border: color-mix(in srgb, var(--primary) 20%, var(--border));
+  --sidebar-ring: color-mix(in srgb, var(--primary) 40%, var(--ring));
 }
 
 /* Brand theme for non-dashboard pages (landing, marketing, etc.) */
@@ -170,5 +170,5 @@
   --secondary-foreground: oklch(0.205 0 0);
   --accent: #67f07a;
   --accent-foreground: oklch(0.205 0 0);
-  --ring: color-mix(in oklch, var(--primary) 40%, white);
+  --ring: color-mix(in srgb, var(--primary) 40%, white);
 }

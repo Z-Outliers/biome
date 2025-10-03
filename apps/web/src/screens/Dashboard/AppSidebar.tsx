@@ -2,7 +2,7 @@
 import { authClient } from "@repo/auth/client";
 import { Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import logo from "@/assets/logo.svg"
+import logo from "@/assets/logo.svg";
 import {
   Sidebar,
   SidebarContent,

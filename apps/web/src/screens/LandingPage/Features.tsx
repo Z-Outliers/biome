@@ -1,5 +1,5 @@
 import { Brain, Dna, FlaskConical, Leaf, Microscope } from "lucide-react";
-import {Link} from "react-router";
+import { Link } from "react-router";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 const features = [
   {
@@ -133,10 +133,15 @@ export default function Features() {
 
                 <CardContent className="relative">
                   <div className="space-y-2">
-                    <p className="text-sm font-medium text-emerald-300 mb-3">Key Features:</p>
+                    <p className="text-sm font-medium text-emerald-300 mb-3">
+                      Key Features:
+                    </p>
                     <ul className="space-y-2">
                       {feature.highlights.map((highlight) => (
-                        <li key={highlight} className="flex items-center text-emerald-100/90 text-sm">
+                        <li
+                          key={highlight}
+                          className="flex items-center text-emerald-100/90 text-sm"
+                        >
                           <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] mr-3" />
                           {highlight}
                         </li>
@@ -161,18 +166,14 @@ export default function Features() {
               className="px-8 py-6 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] hover:opacity-90 text-[var(--primary-foreground)] font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
               asChild
             >
-              <Link to="/dashboard">
-                Start Researching
-              </Link>
+              <Link to="/dashboard">Start Researching</Link>
             </Button>
             <Button
               variant={"outline"}
               className="px-8 py-6 border border-[var(--primary)] text-[var(--primary)] hover:text-[var(--primary-foreground)] hover:border-[var(--primary-foreground)] rounded-full transition-all duration-300"
               asChild
             >
-              <Link to="/papers">
-                Browse Papers
-              </Link>
+              <Link to="/papers">Browse Papers</Link>
             </Button>
           </div>
         </div>

@@ -1,8 +1,8 @@
-import {Link} from "react-router";
+import { Link } from "react-router";
 import BlurText from "@/components/BlurText";
 import { Button } from "@/components/ui/button";
-import DarkVeil from "@/components/DarkVeil"
-import Logo from '@/assets/logo.svg'
+import DarkVeil from "@/components/DarkVeil";
+import Logo from "@/assets/logo.svg";
 
 export default function TopSection() {
   return (

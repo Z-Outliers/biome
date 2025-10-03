@@ -1,8 +1,8 @@
-import { SidebarProvider } from "@/components/ui/sidebar"
-import { Outlet } from "react-router"
-import Footer from "../LandingPage/Footer"
-import AppSidebar from "./AppSidebar"
-import Navbar from "./Navbar"
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { Outlet } from "react-router";
+import Footer from "../LandingPage/Footer";
+import AppSidebar from "./AppSidebar";
+import Navbar from "./Navbar";
 
 export default function DashboardLayout() {
   return (
@@ -11,9 +11,12 @@ export default function DashboardLayout() {
         <AppSidebar />
         <div className="flex-1 min-h-screen flex flex-col">
           <Navbar />
-          <div className="flex-1"><Outlet /></div>
-        <Footer />
+          <div className="flex-1">
+            <Outlet />
+          </div>
+          <Footer />
+        </div>
       </div>
-    </div>
-  </SidebarProvider>)
+    </SidebarProvider>
+  );
 }

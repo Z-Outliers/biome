@@ -1,6 +1,6 @@
-import Footer from "./Footer"
-import TopSection from "./TopSection"
-import Features from "./Features"
+import Footer from "./Footer";
+import TopSection from "./TopSection";
+import Features from "./Features";
 
 export default function LandingPage() {
   return (
@@ -9,5 +9,5 @@ export default function LandingPage() {
       <Features />
       <Footer />
     </div>
-  )
+  );
 }
