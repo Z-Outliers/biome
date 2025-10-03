@@ -8,23 +8,32 @@ export const getPaginatedPapers = async (
 ) => {
   const skip = (page - 1) * pageSize;
 
-  return await prisma.paper.findMany({
-    orderBy: {
-      [sortBy || "createdAt"]: order,
-    },
-    skip,
-    take: pageSize,
-    select: {
-      title: true,
-      id: true,
-      abstract: true,
-      originalUrl: true,
-      tags: true,
-      authors: true,
-      thumbnail: true,
-      createdAt: true,
-    },
-  });
+  const [items, total] = await prisma.$transaction([
+    prisma.paper.findMany({
+      orderBy: {
+        [sortBy || "createdAt"]: order,
+      },
+      skip,
+      take: pageSize,
+      select: {
+        title: true,
+        id: true,
+        abstract: true,
+        originalUrl: true,
+        tags: true,
+        authors: true,
+        thumbnail: true,
+        createdAt: true,
+      },
+    }),
+    prisma.paper.count(),
+  ]);
+
+  return {
+    items,
+    currentPage: page,
+    lastPage: Math.ceil(total / pageSize),
+  };
 };
 
 export const getPaperById = async (id: string) => {
