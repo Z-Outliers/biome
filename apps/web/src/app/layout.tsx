@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   // TODO: review overflow-hidden
   return (
-    <html lang='en'>
+    <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
       >
