@@ -170,8 +170,8 @@ export default function Features() {
               className="px-8 py-6 border border-emerald-300/60 text-emerald-100 hover:text-white hover:border-white rounded-full transition-all duration-300"
               asChild
             >
-              <Link href="/publications">
-                Browse Publications
+              <Link href="/papers">
+                Browse Papers
               </Link>
             </Button>
           </div>

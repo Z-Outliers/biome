@@ -24,8 +24,8 @@ const items = [
     icon: Home,
   },
   {
-    title: "Publications",
-    url: "/publications",
+    title: "Papers",
+    url: "/papers",
     icon: Inbox,
   },
   {
