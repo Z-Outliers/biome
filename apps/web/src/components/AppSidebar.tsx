@@ -25,7 +25,7 @@ const items = [
   },
   {
     title: "Publications",
-    url: "/publications",
+    url: "/dashboard/papers",
     icon: Inbox,
   },
   {
@@ -89,7 +89,10 @@ export default function AppSidebar() {
                       isActive={active}
                       className="data-[active=true]:border-l-2 data-[active=true]:border-[var(--primary)] data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground"
                     >
-                      <a href={item.url} aria-current={active ? "page" : undefined}>
+                      <a
+                        href={item.url}
+                        aria-current={active ? "page" : undefined}
+                      >
                         <item.icon />
                         <span>{item.title}</span>
                       </a>
