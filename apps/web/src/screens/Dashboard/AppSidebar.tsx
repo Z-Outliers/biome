@@ -1,8 +1,8 @@
-"use client";
 import { authClient } from "@repo/auth/client";
 import { Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useLocation } from "react-router";
 import logo from "@/assets/logo.svg";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Sidebar,
   SidebarContent,
@@ -45,6 +45,7 @@ const items = [
 ];
 
 export default function AppSidebar() {
+  const { pathname } = useLocation();
   const session = authClient.useSession();
   const user = session?.data?.user;
 
@@ -75,7 +76,7 @@ export default function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                const active = true; // TODO: handle active
+                const active = pathname === item.url;
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton

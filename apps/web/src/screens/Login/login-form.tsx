@@ -1,5 +1,3 @@
-"use client";
-
 import { authClient } from "@repo/auth/client";
 import { UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";

@@ -1,5 +1,5 @@
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet } from "react-router";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import Footer from "../LandingPage/Footer";
 import AppSidebar from "./AppSidebar";
 import Navbar from "./Navbar";
