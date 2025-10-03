@@ -1,9 +1,8 @@
 "use client";
 import { authClient } from "@repo/auth/client";
 import { Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react";
-import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import logo from "@/assets/logo.svg"
 import {
   Sidebar,
   SidebarContent,
@@ -46,15 +45,11 @@ const items = [
 ];
 
 export default function AppSidebar() {
-  const router = useRouter();
-  const pathname = usePathname();
   const session = authClient.useSession();
   const user = session?.data?.user;
 
-  console.log(user);
   const handleLogout = async () => {
     await authClient.signOut();
-    router.push("/login");
   };
 
   return (
@@ -62,7 +57,7 @@ export default function AppSidebar() {
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sidebar-accent">
-            <Image src="/logo.svg" alt="BioMe Logo" width={40} height={40} />
+            <img src={logo} alt="BioMe Logo" width={40} height={40} />
           </div>
           <div className="flex flex-col">
             <span className="text-lg font-bold text-sidebar-foreground">
@@ -80,8 +75,7 @@ export default function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                const active =
-                  pathname === item.url || pathname?.startsWith(`${item.url}/`);
+                const active = true; // TODO: handle active
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton

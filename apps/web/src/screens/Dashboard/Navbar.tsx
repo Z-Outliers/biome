@@ -1,11 +1,11 @@
 'use client'
 
 import { Sun, Moon } from "lucide-react"
-import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
 import Search from "./Search"
+import { useTheme } from "@/providers/ThemeProvider"
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme()

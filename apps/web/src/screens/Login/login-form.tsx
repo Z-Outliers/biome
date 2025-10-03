@@ -11,21 +11,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const router = useRouter();
-
+  
   const loginWithGoogle = async () => {
     try {
       await authClient.signIn.social({
         provider: "google",
         callbackURL: `${window.location.origin}/dashboard`,
       });
-      router.push('/dashboard');
     } catch (error) {
       console.error("Login error", error);
     }
@@ -34,7 +31,6 @@ export function LoginForm({
   const loginAsGuest = async () => {
     try {
       await authClient.signIn.anonymous();
-      router.push('/dashboard');
     } catch (error) {
       console.error("Login error", error);
     }

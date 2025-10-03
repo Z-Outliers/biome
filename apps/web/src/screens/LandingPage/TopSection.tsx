@@ -1,8 +1,8 @@
-import Link from "next/link";
-import Image from "next/image";
+import {Link} from "react-router";
 import BlurText from "@/components/BlurText";
 import { Button } from "@/components/ui/button";
 import DarkVeil from "@/components/DarkVeil"
+import Logo from '@/assets/logo.svg'
 
 export default function TopSection() {
   return (
@@ -39,7 +39,7 @@ export default function TopSection() {
                   className="bg-[var(--primary)] text-[color:var(--primary-foreground)] hover:opacity-90 font-semibold px-8 py-4 rounded-full"
                   asChild
                 >
-                  <Link href="/dashboard">Get Started</Link>
+                  <Link to="/dashboard">Get Started</Link>
                 </Button>
                 <Button
                   size="lg"
@@ -47,7 +47,7 @@ export default function TopSection() {
                   variant="outline"
                   asChild
                 >
-                  <Link href="#features">Learn More</Link>
+                  <a href="#features">Learn More</a>
                 </Button>
               </div>
             </div>
@@ -59,11 +59,11 @@ export default function TopSection() {
               {/* Branded glow ring */}
               <div className="absolute -inset-16 rounded-[3rem] bg-gradient-to-r from-[var(--primary)]/35 to-[var(--secondary)]/35 blur-[72px]" />
               <div className="relative transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:rotate-[0.25deg]">
-                <Image
-                  src="/logo.svg"
-                  alt="BioMe Logo"
+                <img
+                  src={Logo}
                   width={500}
                   height={500}
+                  alt="BioMe Logo"
                   className="mx-auto biome-float will-change-transform drop-shadow-[0_0_50px_rgba(0,179,59,0.35)]"
                 />
               </div>

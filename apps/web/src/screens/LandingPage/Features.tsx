@@ -1,5 +1,5 @@
 import { Brain, Dna, FlaskConical, Leaf, Microscope } from "lucide-react";
-import Link from "next/link";
+import {Link} from "react-router";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -158,19 +158,19 @@ export default function Features() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
-              className="px-8 py-6 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] hover:opacity-90 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+              className="px-8 py-6 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] hover:opacity-90 text-[var(--primary-foreground)] font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
               asChild
             >
-              <Link href="/dashboard">
+              <Link to="/dashboard">
                 Start Researching
               </Link>
             </Button>
             <Button
               variant={"outline"}
-              className="px-8 py-6 border border-emerald-300/60 text-emerald-100 hover:text-white hover:border-white rounded-full transition-all duration-300"
+              className="px-8 py-6 border border-[var(--primary)] text-[var(--primary)] hover:text-[var(--primary-foreground)] hover:border-[var(--primary-foreground)] rounded-full transition-all duration-300"
               asChild
             >
-              <Link href="/papers">
+              <Link to="/papers">
                 Browse Papers
               </Link>
             </Button>
