@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Footer from "@/screens/Landing/Footer";
+import { ThemeProvider } from "next-themes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,13 +25,13 @@ export default function RootLayout({
 }>) {
   // TODO: review overflow-hidden
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
-        suppressHydrationWarning={true}
       >
-        {children}
-        <Footer />
+        <ThemeProvider forcedTheme="dark">
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -23,7 +23,7 @@ export default async function Protector({
   }
 
   if(authPage && session?.data?.user) {
-    redirect("/home");
+    redirect("/dashboard");
   }
 
   return <>{children}</>;
