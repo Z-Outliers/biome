@@ -1,5 +1,5 @@
+import { Github, Linkedin, Mail, XIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { Github, XIcon, Linkedin, Mail, Twitter } from "lucide-react";
 
 export default function Footer() {
   return (
