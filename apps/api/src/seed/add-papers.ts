@@ -8,32 +8,14 @@ const fileContent = fs.readFileSync(filePath, "utf-8");
 const records = parse(fileContent, { delimiter: "," });
 console.log(records.length);
 for (const record of records) {
-  const [
-    id = "",
-    title = "",
-    url = "",
-    authors = "",
-    abstract = "",
-    content = "",
-  ] = record;
-  const authorsArray = authors.split(", ");
-  await prisma.paper.upsert({
+  const [id = "", , , , , content = ""] = record;
+  const matches = [...content.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)];
+  const thumbnail = matches[1]?.[1] ?? matches[0]?.[1] ?? null;
+  await prisma.paper.update({
     where: { id },
-    create: {
-      id,
-      title,
-      originalUrl: url,
-      authors: authorsArray,
-      abstract,
-      content,
-    },
-    update: {
-      title,
-      originalUrl: url,
-      authors: authorsArray,
-      abstract,
-      content,
+    data: {
+      thumbnail,
     },
   });
-  console.log(`Upserted paper with id: ${id}`);
+  console.log(`Updated paper with id: ${id}`);
 }

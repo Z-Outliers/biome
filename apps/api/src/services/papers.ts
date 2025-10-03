@@ -14,7 +14,16 @@ export const getPaginatedPapers = async (
     },
     skip,
     take: pageSize,
-    select: { title: true, id: true, abstract: true, originalUrl: true },
+    select: {
+      title: true,
+      id: true,
+      abstract: true,
+      originalUrl: true,
+      tags: true,
+      authors: true,
+      thumbnail: true,
+      createdAt: true,
+    },
   });
 };
 

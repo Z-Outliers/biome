@@ -20,6 +20,7 @@ model Paper {
   title       String
   content     String
   abstract    String
+  thumbnail   String?
   summary     String?
   originalUrl String
   authors     String[]
