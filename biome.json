@@ -6,7 +6,17 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": true,
+    "includes": [
+      "**",
+      "!**/node_modules/**",
+      "!**/.next/**",
+      "!**/.turbo/**",
+      "!**/.vercel/**",
+      "!dist/**",
+      "!build/**",
+      "!coverage/**"
+    ]
   },
   "formatter": {
     "enabled": true,

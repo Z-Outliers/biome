@@ -1,7 +1,7 @@
 import Link from "next/link";
 import BlurText from "@/components/BlurText";
-import { Button } from "@/components/ui/button";
 import Orb from "@/components/Orb";
+import { Button } from "@/components/ui/button";
 
 export default function TopSection() {
   return (
@@ -35,7 +35,7 @@ export default function TopSection() {
               className="bg-white text-black hover:bg-gray-300 font-semibold px-8 py-4 rounded-full"
               asChild
             >
-              <Link href="/dashboard">Get Started</Link>
+              <Link href="/home">Get Started</Link>
             </Button>
             <Button
               size="lg"

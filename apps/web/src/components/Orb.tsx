@@ -1,6 +1,6 @@
 "use client";
+import { Mesh, Program, Renderer, Triangle, Vec3 } from "ogl";
 import { useEffect, useRef } from "react";
-import { Renderer, Program, Mesh, Triangle, Vec3 } from "ogl";
 
 interface OrbProps {
   hue?: number;
