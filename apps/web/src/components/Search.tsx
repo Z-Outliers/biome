@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { SearchIcon, ImageUp, Mic } from "lucide-react";
+import { SearchIcon, ImageUp, Mic, Sparkles } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 
 export default function Search() {
@@ -99,34 +99,63 @@ export default function Search() {
       </form>
 
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="bottom" className="h-[80vh] w-full max-w-none sm:rounded-t-lg">
+        <SheetContent side="bottom" className="dashboard-theme h-[80vh] w-full max-w-none sm:rounded-t-lg">
           <SheetHeader className="p-4 pb-2">
             <SheetTitle>
               Results{submittedQuery ? ` for "${submittedQuery}"` : ""}
             </SheetTitle>
           </SheetHeader>
           <div className="flex-1 overflow-y-auto p-4 pt-2 space-y-6">
-            {/* Summary section */}
-            <Card className="border">
-              <CardHeader>
-                <CardTitle>Summary</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {isLoading ? (
-                  <div className="space-y-2">
-                    <div className="h-4 bg-muted rounded w-2/3" />
-                    <div className="h-4 bg-muted rounded w-full" />
-                    <div className="h-4 bg-muted rounded w-5/6" />
+            {/* Summary section (special styling) */}
+            <div className="rounded-lg p-[1px] bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]">
+              <Card className="rounded-lg bg-background">
+                <CardHeader className="pb-2">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-[color:var(--primary)]" />
+                    <CardTitle>Summary</CardTitle>
                   </div>
-                ) : (
-                  <p className="text-muted-foreground">
-                    Here's a concise overview of the most relevant information related to{" "}
-                    <span className="font-medium text-foreground">"{submittedQuery}"</span>.
-                    This section will summarize key findings, trends, and noteworthy references.
-                  </p>
-                )}
-              </CardContent>
-            </Card>
+                  {!isLoading && submittedQuery && (
+                    <p className="text-xs text-muted-foreground">Auto-generated overview</p>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  {isLoading ? (
+                    <div className="space-y-2">
+                      <div className="h-4 bg-muted rounded w-2/3" />
+                      <div className="h-4 bg-muted rounded w-full" />
+                      <div className="h-4 bg-muted rounded w-5/6" />
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <p className="text-muted-foreground">
+                        Here's a concise overview of the most relevant information related to{" "}
+                        <span className="font-medium text-foreground">"{submittedQuery}"</span>.
+                        This section will summarize key findings, trends, and noteworthy references.
+                      </p>
+
+                      {/* Highlights */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Badge className="border border-[var(--primary)] text-[color:var(--primary)] bg-transparent">Key Finding</Badge>
+                        <Badge className="border border-[var(--primary)] text-[color:var(--primary)] bg-transparent">Top Author</Badge>
+                        <Badge className="border border-[var(--primary)] text-[color:var(--primary)] bg-transparent">Trending Topic</Badge>
+                      </div>
+
+                      {/* Confidence meter */}
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs text-muted-foreground">Confidence</span>
+                        <div className="h-2 flex-1 rounded-full bg-muted">
+                          <div
+                            className="h-2 rounded-full bg-[var(--primary)]"
+                            style={{ width: "72%" }}
+                          />
+                        </div>
+                        <span className="text-xs font-medium text-foreground">72%</span>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
 
             {/* Documents list */}
             <section className="space-y-3">

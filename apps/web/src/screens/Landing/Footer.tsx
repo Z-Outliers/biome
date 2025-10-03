@@ -9,10 +9,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Logo & Description */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
               BioMe
             </h3>
-            <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
+            <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
               Discover the universe of biology through interactive exploration
               and cutting-edge digital experiences.
             </p>
@@ -20,14 +20,14 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="text-white font-semibold">Quick Links</h4>
+            <h4 className="text-foreground font-semibold">Quick Links</h4>
             <ul className="space-y-2">
               {["Features", "Research", "Documentation", "Support"].map(
                 (link) => (
                   <li key={link}>
                     <a
                       href={`#${link.toLowerCase()}`}
-                      className="text-slate-400 hover:text-white transition-colors text-sm"
+                      className="text-muted-foreground hover:text-foreground transition-colors text-sm"
                     >
                       {link}
                     </a>
@@ -39,7 +39,7 @@ export default function Footer() {
 
           {/* Connect */}
           <div className="space-y-4">
-            <h4 className="text-white font-semibold">Connect</h4>
+            <h4 className="text-foreground font-semibold">Connect</h4>
             <div className="flex space-x-4">
               {[
                 { icon: Github, href: "#", label: "GitHub" },
@@ -50,33 +50,33 @@ export default function Footer() {
                 <a
                   key={label}
                   href={href}
-                  className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors group"
+                  className="p-2 rounded-full bg-[color:var(--primary)]/10 hover:bg-[color:var(--primary)]/20 transition-colors group"
                   aria-label={label}
                 >
-                  <Icon className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" />
+                  <Icon className="w-5 h-5 text-[color:var(--primary)] group-hover:text-[color:var(--primary-foreground)] transition-colors" />
                 </a>
               ))}
             </div>
           </div>
         </div>
 
-        <Separator className="bg-white/10 mb-6" />
+        <Separator className="mb-6 h-px bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] opacity-60" />
 
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <p className="text-slate-500 text-sm">
+          <p className="text-muted-foreground text-sm">
             © 2025 BioMe. All rights reserved.
           </p>
           <div className="flex space-x-6 text-sm">
             <a
               href="#privacy"
-              className="text-slate-500 hover:text-slate-300 transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Privacy Policy
             </a>
             <a
               href="#terms"
-              className="text-slate-500 hover:text-slate-300 transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Terms of Service
             </a>

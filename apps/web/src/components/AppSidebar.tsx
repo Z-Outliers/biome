@@ -2,7 +2,7 @@
 import { authClient } from "@repo/auth/client";
 import { Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Sidebar,
@@ -47,6 +47,7 @@ const items = [
 
 export default function AppSidebar() {
   const router = useRouter();
+  const pathname = usePathname();
   const session = authClient.useSession();
   const user = session?.data?.user;
 
@@ -60,8 +61,8 @@ export default function AppSidebar() {
     <Sidebar>
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sidebar-accent p-2">
-            <Image src="/logo.svg" alt="BioMe Logo" width={24} height={24} />
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sidebar-accent">
+            <Image src="/logo.svg" alt="BioMe Logo" width={40} height={40} />
           </div>
           <div className="flex flex-col">
             <span className="text-lg font-bold text-sidebar-foreground">
@@ -78,16 +79,24 @@ export default function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items.map((item) => {
+                const active =
+                  pathname === item.url || pathname?.startsWith(`${item.url}/`);
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={active}
+                      className="data-[active=true]:border-l-2 data-[active=true]:border-[var(--primary)] data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground"
+                    >
+                      <a href={item.url} aria-current={active ? "page" : undefined}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

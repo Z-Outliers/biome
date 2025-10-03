@@ -123,3 +123,51 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Floating animation for hero logo */
+@keyframes biome-float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.biome-float {
+  animation: biome-float 6s ease-in-out infinite;
+}
+
+/* Dashboard scoped theme using provided brand colors */
+.dashboard-theme {
+  /* Primary brand colors */
+  --primary: #00b33b; /* primary */
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: #67f07a; /* primary light used as secondary */
+  --secondary-foreground: oklch(0.205 0 0);
+
+  /* Accent and ring harmonized with primary */
+  --accent: #67f07a;
+  --accent-foreground: oklch(0.205 0 0);
+  --ring: color-mix(in oklch, var(--primary) 40%, white);
+
+  /* Sidebar theme variables using brand colors */
+  --sidebar-accent: color-mix(in oklch, var(--primary) 12%, var(--sidebar));
+  --sidebar-accent-foreground: var(--sidebar-foreground);
+  --sidebar-border: color-mix(in oklch, var(--primary) 20%, var(--border));
+  --sidebar-ring: color-mix(in oklch, var(--primary) 40%, var(--ring));
+}
+
+/* Brand theme for non-dashboard pages (landing, marketing, etc.) */
+.brand-theme {
+  --primary: #00b33b;
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: #67f07a;
+  --secondary-foreground: oklch(0.205 0 0);
+  --accent: #67f07a;
+  --accent-foreground: oklch(0.205 0 0);
+  --ring: color-mix(in oklch, var(--primary) 40%, white);
+}

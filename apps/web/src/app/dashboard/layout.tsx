@@ -12,11 +12,13 @@ export default function DashboardLayout({
   return (
     <Protector>
       <SidebarProvider>
-        <AppSidebar />
-        <div>
-          <Navbar />
-          {children}
-          <Footer />
+        <div className="dashboard-theme flex w-full">
+          <AppSidebar />
+          <div className="flex-1 min-h-screen flex flex-col">
+            <Navbar />
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </div>
         </div>
       </SidebarProvider>
     </Protector>
