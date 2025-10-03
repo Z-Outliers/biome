@@ -16,13 +16,16 @@ datasource db {
 }
 
 model Paper {
-  id        String   @id @default(uuid())
-  title     String
-  content   String
-  authors   String[]
-  tags      String[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  abstract    String
+  summary     String?
+  originalUrl String
+  authors     String[]
+  tags        String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   chunks PaperChunk[]
 }

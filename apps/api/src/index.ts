@@ -4,6 +4,7 @@ import express from "express";
 import env from "./env.js";
 import { auth } from "./lib/auth.js";
 import { requireAuth } from "./middlewares/requireAuth.js";
+import { papersRouter } from "./routes/papers.js";
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(
 );
 app.use(express.json());
 app.all("/api/auth/{*any}", toNodeHandler(auth));
+
+app.use("/api/papers", papersRouter);
 
 app.get("/", (_, res) => {
   res.send("Hello from the other side");
