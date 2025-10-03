@@ -21,6 +21,7 @@ export const createAuth = (
         clientSecret: googleClientSecret,
       },
     },
+    trustedOrigins: ["http://localhost:3000"],
     plugins: [anonymous()],
   } as const);
 };
