@@ -18,9 +18,10 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
+
   const loginWithGoogle = async () => {
     try {
-      const res = await authClient.signIn.social({
+      await authClient.signIn.social({
         provider: "google",
         callbackURL: `${window.location.origin}/dashboard`,
       });
@@ -32,7 +33,7 @@ export function LoginForm({
 
   const loginAsGuest = async () => {
     try {
-      const res = await authClient.signIn.anonymous();
+      await authClient.signIn.anonymous();
       router.push('/dashboard');
     } catch (error) {
       console.error("Login error", error);
