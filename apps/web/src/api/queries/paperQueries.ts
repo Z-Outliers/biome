@@ -28,7 +28,7 @@ export function getPapersQuery(filters?: PapersFilters) {
   });
 }
 
-export const searchPapersQuery = (query: string, fileData?: FormData) =>
+export const searchPapersQuery = (query?: string, fileData?: FormData) =>
   queryOptions({
     queryKey: ["searchPapers", query, fileData],
     queryFn: () => paperService.search(query, fileData),

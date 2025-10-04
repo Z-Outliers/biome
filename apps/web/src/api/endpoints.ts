@@ -7,8 +7,8 @@ export const paperService = {
       params: { page, ...filters },
     }),
   getById: (id: string) => get<Paper>(`/papers/${id}`),
-  search: (q: string, fileData?: FormData) =>
-    post<SearchResults>("/papers/search", fileData, {
+  search: (q?: string, fileData?: FormData) =>
+    post<SearchResults>("/papers/search", fileData || undefined, {
       params: { q },
       headers: { "Content-Type": "multipart/form-data" },
     }),

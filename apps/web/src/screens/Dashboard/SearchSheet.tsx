@@ -14,22 +14,22 @@ import {
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  query: string;
+  query?: string;
+  fileData?: FormData;
 };
 
-export default function SearchSheet({ open, setOpen, query }: Props) {
-  const { data, isLoading } = useQuery(searchPapersQuery(query));
+export default function SearchSheet({ open, setOpen, query, fileData }: Props) {
+  console.log(query, fileData);
+  const { data, isLoading } = useQuery(searchPapersQuery(query, fileData));
 
   if (!query) return null;
-
-  console.log(data);
 
   const truncate = (s: string, n = 140) => {
     if (!s) return "";
     if (s.length <= n) return s;
     const sub = s.slice(0, n);
     const lastSpace = sub.lastIndexOf(" ");
-    return (lastSpace > n * 0.6 ? sub.slice(0, lastSpace) : sub) + "…";
+    return `${lastSpace > n * 0.6 ? sub.slice(0, lastSpace) : sub}…`;
   };
 
   const formatAuthors = (authors: string[], max = 3) => {
@@ -78,9 +78,9 @@ export default function SearchSheet({ open, setOpen, query }: Props) {
                       <span className="font-medium text-foreground">
                         "{query}"
                       </span>
-                      . This section will summarize key findings, trends, and
-                      noteworthy references.
                     </p>
+
+                    <p className="text-muted-foreground">{data?.summary}</p>
 
                     {/* Highlights */}
                     <div className="flex flex-wrap items-center gap-2">
@@ -91,7 +91,7 @@ export default function SearchSheet({ open, setOpen, query }: Props) {
                         Top Author
                       </Badge>
                       <Badge className="border border-[var(--primary)] text-[color:var(--primary)] bg-transparent">
-                        Trending Topic
+                        Relevant Publications
                       </Badge>
                     </div>
 
@@ -106,9 +106,6 @@ export default function SearchSheet({ open, setOpen, query }: Props) {
                           style={{ width: "72%" }}
                         />
                       </div>
-                      <span className="text-xs font-medium text-foreground">
-                        72%
-                      </span>
                     </div>
                   </div>
                 )}

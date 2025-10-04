@@ -1,59 +1,60 @@
-import { ImageUp, Mic, SearchIcon, Sparkles } from "lucide-react";
+import { ImageUp, Mic, SearchIcon, XIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import SearchSheet from "../SearchSheet";
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [submittedQuery, setSubmittedQuery] = useState<string | null>(null);
-  const [isListening, setIsListening] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [fileData, setFileData] = useState<FormData | null>(null);
+  const [isListening, setIsListening] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
-    setSubmittedQuery(searchQuery.trim());
-    setIsLoading(true);
+
+    if (selectedImage) {
+      const fd = new FormData();
+      fd.append("file", selectedImage);
+      setFileData(fd);
+      setOpen(true);
+      return;
+    }
+
+    const q = searchQuery.trim();
+    if (!q) return;
+
+    setSubmittedQuery(q);
     setOpen(true);
-    setTimeout(() => setIsLoading(false), 800);
   };
 
-  const handleUploadClick = () => {
-    fileInputRef.current?.click();
-  };
+  const handleUploadClick = () => fileInputRef.current?.click();
 
   const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const base = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
-      setSearchQuery(base);
+      setSearchQuery("");
+      setSelectedImage(file);
     }
   };
 
-  const toggleMic = () => setIsListening((v) => !v);
+  const clearSelectedImage = () => {
+    setSelectedImage(null);
+    setFileData(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
-  const documents = submittedQuery
-    ? Array.from({ length: 5 }).map((_, i) => ({
-        id: i + 1,
-        title: `Relevant document ${i + 1} for "${submittedQuery}"`,
-        snippet:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        source: i % 2 === 0 ? "arXiv" : "PubMed",
-        year: 2020 + ((i * 3) % 5),
-      }))
-    : [];
+  const onChangeQuery = (value: string) => {
+    if (fileData) {
+      setFileData(null);
+      setSelectedImage(null);
+    }
+    setSearchQuery(value);
+  };
 
   return (
     <div className="flex-1 max-w-3xl mx-auto w-full">
@@ -66,8 +67,31 @@ export default function Search() {
               placeholder="Search publications, authors, topics..."
               className="flex-1 h-8 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => onChangeQuery(e.target.value)}
             />
+            {/* Image preview badge */}
+            {selectedImage && (
+              <span
+                className="inline-flex items-center gap-1 rounded-full border bg-background/80 px-1.5 py-0.5 text-xs text-muted-foreground shadow-sm"
+                title="Image selected"
+              >
+                <img
+                  src={URL.createObjectURL(selectedImage)}
+                  alt="Selected"
+                  className="h-5 w-5 rounded object-cover"
+                />
+                <span className="hidden sm:inline">Image</span>
+                <button
+                  type="button"
+                  onClick={clearSelectedImage}
+                  className="ml-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full hover:bg-muted"
+                  aria-label="Remove image"
+                >
+                  <XIcon className="h-3.5 w-3.5" />
+                </button>
+              </span>
+            )}
+
             {/* Right action buttons */}
             <input
               ref={fileInputRef}
@@ -90,7 +114,10 @@ export default function Search() {
               type="button"
               size="icon"
               variant={isListening ? "default" : "ghost"}
-              onClick={() => toast.warning("Comming soon!")}
+              onClick={() => {
+                setIsListening((v) => !v);
+                toast.warning("Coming soon!");
+              }}
               aria-label="Voice message"
               title="Voice message"
             >
@@ -104,7 +131,12 @@ export default function Search() {
           </div>
         </div>
       </form>
-      <SearchSheet open={open} setOpen={setOpen} query={submittedQuery || ""} />
+      <SearchSheet
+        open={open}
+        setOpen={setOpen}
+        query={submittedQuery || ""}
+        fileData={fileData || undefined}
+      />
     </div>
   );
 }
