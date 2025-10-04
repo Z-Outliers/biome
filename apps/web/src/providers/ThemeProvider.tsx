@@ -31,7 +31,6 @@ export function ThemeProvider({
   );
 
   useEffect(() => {
-    console.log("ThemeProvider: Setting theme to", theme);
     const root = window.document.documentElement;
 
     root.classList.remove("light", "dark");
@@ -43,7 +42,6 @@ export function ThemeProvider({
         : "light";
 
       root.classList.add(systemTheme);
-      //   setTheme(systemTheme);
       return;
     }
 

@@ -1,5 +1,6 @@
 import { authClient } from "@repo/auth/client";
 import { UserIcon } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,15 +22,18 @@ export function LoginForm({
         callbackURL: `${window.location.origin}/dashboard`,
       });
     } catch (error) {
-      console.error("Login error", error);
+      console.error("Google login error:", error);
+      toast.error("Failed to log in with Google");
     }
   };
 
   const loginAsGuest = async () => {
     try {
       await authClient.signIn.anonymous();
+      toast.success("Logged in as Guest");
     } catch (error) {
       console.error("Login error", error);
+      toast.error("Failed to log in as Guest");
     }
   };
 
