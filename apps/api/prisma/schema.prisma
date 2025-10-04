@@ -41,7 +41,7 @@ model PaperChunk {
   id             String                @id @default(uuid())
   paperId        String
   type           ChunckType
-  chunkIndex     Int
+  chunkIndex     Int?
   chunkText      String
   chunkEmbedding Unsupported("vector")
 

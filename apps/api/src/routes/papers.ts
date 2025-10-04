@@ -1,5 +1,15 @@
 import { Router } from "express";
-import { getPaginatedPapers, getPaperById } from "../services/papers.js";
+import { upload } from "../lib/upload.js";
+import {
+  getEmbeddingsFromAudio,
+  getEmbeddingsFromImage,
+  getEmbeddingsFromText,
+} from "../services/embeddings.js";
+import {
+  getPaginatedPapers,
+  getPaperById,
+  searchPaperChunks,
+} from "../services/papers.js";
 
 const router: Router = Router();
 
@@ -19,6 +29,25 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const paper = await getPaperById(req.params.id);
   res.json(paper);
+});
+
+router.post("/search", upload.single("file"), async (req, res) => {
+  let embeddings: number[] | null = null;
+  if (req.query.q) {
+    embeddings = await getEmbeddingsFromText(req.query.q as string);
+  } else if (req.file?.mimetype.startsWith("image/")) {
+    embeddings = await getEmbeddingsFromImage(req.file.buffer);
+  } else if (req.file?.mimetype.startsWith("audio/")) {
+    embeddings = await getEmbeddingsFromAudio(req.file.buffer);
+  }
+  console.log("Query: ", req.query.q);
+
+  if (!embeddings) {
+    return res.status(400).json({ error: "No valid query or file provided" });
+  }
+
+  const papers = await searchPaperChunks(embeddings, 5);
+  res.json(papers);
 });
 
 export { router as papersRouter };

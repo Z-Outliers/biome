@@ -1,3 +1,4 @@
+import { sql } from "../generated/prisma/internal/prismaNamespace.js";
 import { prisma } from "../lib/db.js";
 
 export const getPaginatedPapers = async (
@@ -41,3 +42,33 @@ export const getPaperById = async (id: string) => {
     where: { id },
   });
 };
+
+export async function searchPaperChunks(embedding: number[], limit: number) {
+  const rows = await prisma.$queryRaw<
+    {
+      chunkId: string;
+      chunkText: string;
+      paperId: string;
+      thumbnail: string | null;
+      authors: string[]; // adjust if your column is text/JSON
+      similarity: number;
+    }[]
+  >(sql`
+    SELECT
+      pc.id AS "chunkId",
+      pc."chunkText",
+      p.id AS "paperId",
+      p.thumbnail,
+      p.title,
+      p.abstract,
+      p."originalUrl",
+      p.authors,
+      1 - (pc."chunkEmbedding" <=> ${JSON.stringify(embedding)}::vector) AS similarity
+    FROM "PaperChunk" pc
+    JOIN "Paper" p ON pc."paperId" = p.id
+    ORDER BY pc."chunkEmbedding" <=> ${JSON.stringify(embedding)}::vector ASC
+    LIMIT ${limit};
+  `);
+
+  return rows;
+}
