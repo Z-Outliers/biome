@@ -3,9 +3,11 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import { Toaster } from "sonner";
 import { queryClient } from "./api/queryClient";
 import { ThemeProvider } from "./providers/ThemeProvider";
+import Dashboard from "./screens/Dashboard";
 import DashboardLayout from "./screens/Dashboard/layout";
 import LandingPage from "./screens/LandingPage";
 import Login from "./screens/Login";
+import Papers from "./screens/Paper";
 
 export default function App() {
   return (
@@ -16,7 +18,8 @@ export default function App() {
             <Route index element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="dashboard" element={<DashboardLayout />}>
-              <Route index element={<div>Papers</div>} />
+              <Route index element={<Dashboard />} />
+              <Route path="papers" element={<Papers />} />
             </Route>
           </Routes>
           <Toaster position="top-right" richColors />

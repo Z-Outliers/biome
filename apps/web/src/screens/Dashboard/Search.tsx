@@ -58,46 +58,50 @@ export default function Search() {
   return (
     <div className="flex-1 max-w-3xl mx-auto w-full">
       <form onSubmit={handleSearch}>
-        <div className="flex items-center gap-2 rounded-md border border-muted-foreground/20 bg-muted/50 px-3 h-10 w-full">
-          <SearchIcon className="h-4 w-4 text-muted-foreground shrink-0" />
-          <Input
-            type="search"
-            placeholder="Search publications, authors, topics..."
-            className="flex-1 h-8 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          {/* Right action buttons */}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileSelected}
-          />
-          <Button
-            type="button"
-            size="icon"
-            variant="ghost"
-            onClick={handleUploadClick}
-            aria-label="Upload image"
-            title="Upload image"
-          >
-            <ImageUp className="h-4 w-4" />
-          </Button>
-          <Button
-            type="button"
-            size="icon"
-            variant={isListening ? "default" : "ghost"}
-            onClick={toggleMic}
-            aria-label="Voice message"
-            title="Voice message"
-          >
-            <Mic className={`h-4 w-4 ${isListening ? "animate-pulse" : ""}`} />
-          </Button>
-          <Button type="submit" className="h-8" variant="default">
-            Search
-          </Button>
+        <div className="rounded-md p-[1px] transition-all duration-200 focus-within:shadow-[0_0_0_2px_color-mix(in_srgb,var(--primary)_10%,transparent)] focus-within:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--primary)_35%,transparent),color-mix(in_srgb,var(--secondary)_25%,transparent),transparent)]">
+          <div className="flex items-center gap-2 rounded-md border border-muted-foreground/20 bg-muted/50 px-3 h-10 w-full transition-colors focus-within:border-[color:color-mix(in_srgb,var(--primary)_45%,var(--border))]">
+            <SearchIcon className="h-4 w-4 text-muted-foreground shrink-0" />
+            <Input
+              type="search"
+              placeholder="Search publications, authors, topics..."
+              className="flex-1 h-8 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {/* Right action buttons */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileSelected}
+            />
+            <Button
+              type="button"
+              size="icon"
+              variant="ghost"
+              onClick={handleUploadClick}
+              aria-label="Upload image"
+              title="Upload image"
+            >
+              <ImageUp className="h-4 w-4" />
+            </Button>
+            <Button
+              type="button"
+              size="icon"
+              variant={isListening ? "default" : "ghost"}
+              onClick={toggleMic}
+              aria-label="Voice message"
+              title="Voice message"
+            >
+              <Mic
+                className={`h-4 w-4 ${isListening ? "animate-pulse" : ""}`}
+              />
+            </Button>
+            <Button type="submit" className="h-8" variant="default">
+              Search
+            </Button>
+          </div>
         </div>
       </form>
 

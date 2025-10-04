@@ -1,7 +1,10 @@
-import { PapersPage, Paper } from "@/types";
+import type { Paper, PapersFilters, PapersPage } from "@/types";
 import { get } from "./axiosClient";
 
 export const paperService = {
-  getAll: (page: number) => get<PapersPage>(`/papers?page=${page}`),
+  getAll: (page: number, filters: PapersFilters) =>
+    get<PapersPage>("/papers", {
+      params: { page, ...filters },
+    }),
   getById: (id: string) => get<Paper>(`/papers/${id}`),
 };

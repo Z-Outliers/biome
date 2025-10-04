@@ -123,6 +123,36 @@
     @apply bg-background text-foreground;
     overflow-x: hidden;
   }
+
+  /* Themed scrollbars (transparent track, brand thumb) */
+  /* Firefox */
+  html,
+  body,
+  * {
+    scrollbar-width: thin;
+    /* thumb color then track color (track transparent) */
+    scrollbar-color: color-mix(in srgb, var(--primary) 55%, transparent)
+      transparent;
+  }
+
+  /* Chromium/WebKit */
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--primary) 55%, transparent);
+    border-radius: 9999px;
+    border: 2px solid transparent; /* creates padding ring matching background */
+    background-clip: content-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--primary) 75%, transparent);
+    background-clip: content-box;
+  }
 }
 
 /* Floating animation for hero logo */

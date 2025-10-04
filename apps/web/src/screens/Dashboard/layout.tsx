@@ -30,7 +30,7 @@ export default function DashboardLayout() {
         <AppSidebar />
         <div className="flex-1 min-h-screen flex flex-col">
           <Navbar />
-          <div className="flex-1">
+          <div className="flex-1 pb-32">
             <Outlet />
           </div>
           <Footer />
