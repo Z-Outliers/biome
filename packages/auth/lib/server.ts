@@ -9,6 +9,7 @@ export const createAuth = (
   provider: PrismaConfig["provider"],
   googleClientId: string,
   googleClientSecret: string,
+  trustedOrigin: string,
 ) => {
   return betterAuth({
     database: prismaAdapter(prisma, { provider }),
@@ -21,7 +22,7 @@ export const createAuth = (
         clientSecret: googleClientSecret,
       },
     },
-    trustedOrigins: ["http://localhost:5173"],
+    trustedOrigins: [trustedOrigin],
     plugins: [anonymous()],
   } as const);
 };

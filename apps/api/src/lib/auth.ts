@@ -7,4 +7,5 @@ export const auth = createAuth(
   "postgresql",
   env.GOOGLE_CLIENT_ID,
   env.GOOGLE_CLIENT_SECRET,
+  env.FRONTEND_URL,
 );
