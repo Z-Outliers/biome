@@ -11,7 +11,7 @@
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](https://www.typescriptlang.org/)
 [![Turborepo](https://img.shields.io/badge/Turborepo-Monorepo-purple.svg)](https://turbo.build/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Vector_DB-336791.svg)](https://www.postgresql.org/)
+[![PostgreSQL](https://img.s.io/badge/PostgreSQL-Vector_DB-336791.svg)](https://www.postgresql.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://react.dev/)
 
 </div>
@@ -397,63 +397,27 @@ const summary = await axios.post(`${EMBEDDING_BASE_URL}/summarize`, {
 [0.023, -0.156, 0.089, ..., 0.234]
 ```
 
-**Step 2**: Vector search finds top 5 chunks:
-1. *"Radiation Effects on Biological Systems in Deep Space"* - Similarity: 0.92
-2. *"Comparative Analysis of Extremophiles in Mars-like Conditions"* - Similarity: 0.89
-3. *"DNA Repair Mechanisms in Radioresistant Bacteria"* - Similarity: 0.85
+**Step 2**: Vector search finds top 5 most relevant paper chunks based on similarity
 
-**Step 3**: AI generates summary:
-> *"Extremophiles survive high-radiation through multiple mechanisms: DNA repair enzymes, protective pigments, and specialized proteins. Studies show radiation-resistant bacteria like Deinococcus radiodurans can withstand 5,000 Gy of ionizing radiation..."*
-
-**Total Time**: 347ms
+**Step 3**: AI generates contextual summary from the retrieved content
 
 ---
 
-## 📊 Performance & Scale
+## 📊 Technical Highlights
 
-| Metric | Achievement | Implementation |
-|--------|-------------|----------------|
-| **Search Latency** | < 100ms | pgvector's HNSW index for approximate nearest neighbor search |
-| **Concurrent Users** | 1000+ | Node.js event loop + connection pooling |
-| **Database Operations** | 10K+ queries/sec | PostgreSQL 14 with optimized indexes |
-| **Vector Dimensions** | 384D | Balance between accuracy and performance |
-| **Similarity Accuracy** | 95%+ | CLIP/Wav2Vec pre-trained models |
-| **Bundle Size** | < 200KB (gzipped) | Vite code splitting + tree shaking |
-| **First Contentful Paint** | < 1.2s | React 19 concurrent rendering |
-| **API Response Time** | < 500ms | Optimized database queries + caching |
+### Performance Features
+- **Vector Search**: pgvector extension for efficient similarity search
+- **384-Dimensional Embeddings**: Optimal balance for accuracy and speed
+- **Type Safety**: 100% TypeScript across all packages
+- **Modern Build**: Vite for fast development and optimized production builds
+- **Efficient Caching**: TanStack Query for smart client-side caching
 
----
-
-## 🔐 Security & Best Practices
-
-✅ **Type Safety**: 100% TypeScript coverage prevents runtime errors  
-✅ **SQL Injection**: Prisma ORM with parameterized queries  
-✅ **XSS Protection**: React's automatic escaping + Content Security Policy  
-✅ **Authentication**: Secure session tokens with HTTP-only cookies  
-✅ **Password Security**: Bcrypt hashing with salt rounds  
-✅ **CORS**: Whitelist-based origin validation  
-✅ **Input Validation**: Zod schemas for runtime type checking  
-✅ **Rate Limiting**: Token bucket algorithm (planned)  
-✅ **HTTPS**: TLS 1.3 in production  
-✅ **Environment Variables**: Secrets never committed to git
-
----
-
-## 🚀 Deployment & DevOps
-
-### CI/CD Pipeline (Planned)
-```yaml
-Build → Test → Type Check → Lint → Deploy
-  ↓      ↓         ↓         ↓       ↓
-Vite   Jest   tsc --noEmit  Biome  Vercel
-```
-
-### Infrastructure
-- **Frontend**: Vercel Edge Network (CDN + SSR)
-- **Backend**: Railway/Render with auto-scaling
-- **Database**: Supabase/Neon for managed PostgreSQL
-- **Monitoring**: Sentry for error tracking
-- **Analytics**: Plausible for privacy-friendly analytics
+### Security Implementation
+- **Authentication**: Better Auth with Google OAuth and email/password
+- **SQL Safety**: Prisma ORM prevents SQL injection
+- **XSS Protection**: React's built-in escaping
+- **Session Management**: Secure cookie-based sessions
+- **CORS**: Configured for trusted origins only
 
 ---
 
@@ -464,7 +428,7 @@ Vite   Jest   tsc --noEmit  Biome  Vercel
 1. **Production-Ready Architecture**: Not a prototype—fully functional monorepo with proper separation of concerns
 2. **Modern Tech Stack**: Latest versions of React 19, TypeScript 5.9, Tailwind CSS 4—demonstrates cutting-edge development
 3. **AI Innovation**: True multimodal AI, not just text search—handles text, images, and audio in unified vector space
-4. **Scalable Design**: PostgreSQL with pgvector supports billion-scale vectors; architecture ready for NASA-scale data
+4. **Scalable Design**: PostgreSQL with pgvector for efficient vector similarity search
 5. **Developer Experience**: Turborepo + pnpm + Biome = fast builds, type safety, and excellent DX
 6. **Real-World Usability**: Polished UI with dark mode, responsive design, and smooth animations
 
@@ -480,20 +444,23 @@ Vite   Jest   tsc --noEmit  Biome  Vercel
 | **Scalability** | ✅ Monorepo architecture ready for microservices migration |
 | **AI Integration** | ✅ Multiple AI services: embeddings + summarization |
 
-### Future Vision
+### Potential Extensions
 
-This project has a clear path to production deployment for actual NASA researchers:
-- **Phase 1** (Current): Core search functionality with multimodal embeddings
-- **Phase 2**: Integration with NASA's research databases (PubMed, arXiv, NASA ADS)
-- **Phase 3**: Collaborative features for research teams
-- **Phase 4**: Mobile applications for field research
-- **Phase 5**: API marketplace for third-party integrations
+- Integration with research databases (PubMed, arXiv, NASA ADS)
+- Collaborative features for research teams
+- Mobile applications
+- Advanced filtering and visualization
 
 ---
 
-## 🛠️ Quick Start for Judges
+## 🛠️ Quick Start
 
-### Run Locally (5 minutes)
+### Prerequisites
+- Node.js 18+
+- pnpm 9+
+- PostgreSQL 14+ with pgvector extension
+
+### Setup
 
 ```bash
 # 1. Clone repository
