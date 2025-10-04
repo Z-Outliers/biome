@@ -13,9 +13,19 @@ export const getEmbeddingsFromText = async (text: string) => {
   return response.data.embedding as number[];
 };
 
-export const getEmbeddingsFromImage = async (imageBuffer: Buffer) => {
+export const getEmbeddingsFromImage = async (
+  imageBuffer: Buffer,
+  mimeType?: string,
+  filename?: string,
+) => {
   const formData = new FormData();
-  formData.append("file", imageBuffer.toString("base64"));
+  // Convert Buffer to Uint8Array for Blob compatibility
+  const uint8Array = new Uint8Array(imageBuffer);
+  const blob = new Blob([uint8Array], {
+    type: mimeType || "application/octet-stream",
+  });
+  formData.append("file", blob, filename || "image");
+
   const response = await axios.post(
     `${EMBEDDING_BASE_URL}/embed/image`,
     formData,
@@ -29,9 +39,19 @@ export const getEmbeddingsFromImage = async (imageBuffer: Buffer) => {
   return response.data.embedding as number[];
 };
 
-export const getEmbeddingsFromAudio = async (audioBuffer: Buffer) => {
+export const getEmbeddingsFromAudio = async (
+  audioBuffer: Buffer,
+  mimeType?: string,
+  filename?: string,
+) => {
   const formData = new FormData();
-  formData.append("file", audioBuffer.toString("base64"));
+  // Convert Buffer to Uint8Array for Blob compatibility
+  const uint8Array = new Uint8Array(audioBuffer);
+  const blob = new Blob([uint8Array], {
+    type: mimeType || "application/octet-stream",
+  });
+  formData.append("file", blob, filename || "audio");
+
   const response = await axios.post(
     `${EMBEDDING_BASE_URL}/embed/audio`,
     formData,

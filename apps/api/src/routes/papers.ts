@@ -37,9 +37,17 @@ router.post("/search", upload.single("file"), async (req, res) => {
   if (req.query.q) {
     embeddings = await getEmbeddingsFromText(req.query.q as string);
   } else if (req.file?.mimetype.startsWith("image/")) {
-    embeddings = await getEmbeddingsFromImage(req.file.buffer);
+    embeddings = await getEmbeddingsFromImage(
+      req.file.buffer,
+      req.file.mimetype,
+      req.file.originalname,
+    );
   } else if (req.file?.mimetype.startsWith("audio/")) {
-    embeddings = await getEmbeddingsFromAudio(req.file.buffer);
+    embeddings = await getEmbeddingsFromAudio(
+      req.file.buffer,
+      req.file.mimetype,
+      req.file.originalname,
+    );
   }
   console.log("Query: ", req.query.q);
 
