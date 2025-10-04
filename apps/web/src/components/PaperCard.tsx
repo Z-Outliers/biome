@@ -1,4 +1,4 @@
-import { ExternalLink, Link as LinkIcon } from "lucide-react";
+import { Link as LinkIcon } from "lucide-react";
 import logo from "@/assets/logo.svg";
 import { cn } from "@/lib/utils";
 import type { PaperPreview } from "@/types/paper";

@@ -7,7 +7,8 @@ import Dashboard from "./screens/Dashboard";
 import DashboardLayout from "./screens/Dashboard/layout";
 import LandingPage from "./screens/LandingPage";
 import Login from "./screens/Login";
-import Papers from "./screens/Paper";
+import PaperScreen from "./screens/PaperScreen";
+import Papers from "./screens/Papers";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
             <Route path="dashboard" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="papers" element={<Papers />} />
+              <Route path="papers/:paperId" element={<PaperScreen />} />
             </Route>
           </Routes>
           <Toaster position="top-right" richColors />

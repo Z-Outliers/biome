@@ -202,3 +202,125 @@
   --accent-foreground: oklch(0.205 0 0);
   --ring: color-mix(in srgb, var(--primary) 40%, white);
 }
+
+/* Rich HTML content renderer */
+.rich-content {
+  color: var(--foreground);
+  line-height: 1.75;
+  word-wrap: break-word;
+}
+.rich-content :where(h1, h2, h3, h4, h5, h6) {
+  color: var(--foreground);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-block: 1.25em 0.5em;
+}
+.rich-content h1 {
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+}
+.rich-content h2 {
+  font-size: clamp(1.375rem, 1.1rem + 0.8vw, 1.875rem);
+}
+.rich-content h3 {
+  font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.5rem);
+}
+.rich-content h4 {
+  font-size: 1.125rem;
+}
+
+.rich-content p {
+  margin-block: 0.75em;
+  color: oklch(from var(--foreground) l c h / 0.88);
+}
+.rich-content strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.rich-content em {
+  font-style: italic;
+}
+
+.rich-content ul,
+.rich-content ol {
+  margin-block: 0.75em;
+  padding-inline-start: 1.25em;
+}
+.rich-content ul {
+  list-style: disc;
+}
+.rich-content ol {
+  list-style: decimal;
+}
+.rich-content li {
+  margin-block: 0.25em;
+}
+
+.rich-content a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.rich-content a:hover {
+  color: color-mix(in srgb, var(--primary) 80%, var(--foreground));
+}
+
+.rich-content hr {
+  border: 0;
+  height: 1px;
+  background: var(--border);
+  margin-block: 1.5em;
+}
+
+.rich-content img,
+.rich-content video,
+.rich-content iframe {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  margin-block: 0.75em;
+}
+
+.rich-content blockquote {
+  margin-block: 1em;
+  padding: 0.75em 1em;
+  border-left: 3px solid color-mix(in srgb, var(--primary) 55%, var(--border));
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: oklch(from var(--foreground) l c h / 0.85);
+  border-radius: var(--radius-md);
+}
+
+.rich-content pre {
+  background: color-mix(in srgb, var(--muted) 70%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  margin-block: 1em;
+}
+.rich-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 0.95em;
+}
+.rich-content pre code {
+  font-size: 0.9em;
+}
+
+.rich-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block: 1em;
+  font-size: 0.95rem;
+}
+.rich-content th,
+.rich-content td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+}
+.rich-content th {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  text-align: left;
+}
+.rich-content tbody tr:nth-child(odd) {
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}

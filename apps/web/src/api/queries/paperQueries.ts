@@ -14,11 +14,11 @@ export const getPaperQuery = (id: string) =>
     enabled: !!id,
   });
 
-export function getPapersQuery(filters: PapersFilters) {
+export function getPapersQuery(filters?: PapersFilters) {
   return infiniteQueryOptions<PapersPage, ApiError, PaperPreview[]>({
     queryKey: ["papers", filters],
     queryFn: ({ pageParam }) =>
-      paperService.getAll(pageParam as number, filters),
+      paperService.getAll(pageParam as number, filters || {}),
     initialPageParam: 1,
     select: (data) => data.pages.flatMap((p) => p.items),
     getNextPageParam: (page) => {

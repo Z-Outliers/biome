@@ -11,7 +11,7 @@ export default function Navbar() {
   const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+    <header className="flex bg-background h-16 items-center gap-2 border-b px-4">
       {/* Sidebar Toggle */}
       <SidebarTrigger className="h-8 w-8" />
       <Separator orientation="vertical" className="mr-2 h-6" />
@@ -22,7 +22,7 @@ export default function Navbar() {
       {/* Theme Toggle */}
       <div className="ml-auto">
         <Button
-          variant="ghost"
+          // variant="ghost"
           size="icon"
           onClick={toggleTheme}
           className="h-8 w-8"
