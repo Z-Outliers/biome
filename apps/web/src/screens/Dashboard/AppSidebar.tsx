@@ -1,9 +1,10 @@
 import { authClient } from "@repo/auth/client";
-import { Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react";
+import { Home, Inbox, LogOut, Paperclip, Settings, Users } from "lucide-react";
 import { useLocation } from "react-router";
 import { toast } from "sonner";
 import logo from "@/assets/logo.svg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -29,9 +30,15 @@ const items = [
     icon: Inbox,
   },
   {
-    title: "Calendar",
+    title: "Collaborate",
     url: "/calendar",
-    icon: Calendar,
+    icon: Users,
+    comingSoon: true,
+  },
+  {
+    title: "Publish",
+    url: "/users",
+    icon: Paperclip,
     comingSoon: true,
   },
   {
@@ -80,8 +87,10 @@ export default function AppSidebar() {
                     <SidebarMenuButton
                       asChild
                       onClick={(e) => {
-                        if (item.comingSoon) e.preventDefault();
-                        toast.warning("Coming soon!");
+                        if (item.comingSoon) {
+                          e.preventDefault();
+                          toast.warning("Coming soon!");
+                        }
                       }}
                       isActive={active}
                       className="data-[active=true]:border-l-2 data-[active=true]:border-[var(--primary)] data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground"
@@ -108,7 +117,7 @@ export default function AppSidebar() {
             <SidebarMenuItem>
               <SidebarMenuButton
                 size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground mb-2"
               >
                 <Avatar className="h-8 w-8 rounded-lg">
                   {user?.image ? (
@@ -131,16 +140,15 @@ export default function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <button
-                  type="button"
+              <div className="flex w-full items-center gap-2 px-2 pb-2">
+                <Button
+                  variant="outline"
+                  className="h-8 flex-1 justify-start hover:text-white"
                   onClick={handleLogout}
-                  className="w-full justify-start"
                 >
-                  <LogOut className="h-4 w-4" />
-                  <span>Sign out</span>
-                </button>
-              </SidebarMenuButton>
+                  <LogOut className="mr-2 h-4 w-4" /> Sign out
+                </Button>
+              </div>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>

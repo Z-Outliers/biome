@@ -4,8 +4,6 @@ import { getPapersQuery } from "@/api/queries/paperQueries";
 import PaperCard from "@/components/PaperCard";
 import { SkeletonCard } from "@/components/SkeletonCard";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import type { PapersFilters } from "@/types";
 
 export default function PapersRow({

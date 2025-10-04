@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, ChevronsLeft } from "lucide-react";
+import { ChevronDown, ChevronsLeft, Sparkles } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { getPaperQuery } from "@/api/queries/paperQueries";
@@ -12,7 +12,6 @@ export default function PaperScreen() {
 
   const { data } = useQuery(getPaperQuery(params.paperId || ""));
 
-  // Collapsible TOC state: open on large screens, collapsed on small
   const [tocOpen, setTocOpen] = useState(true);
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -21,7 +20,6 @@ export default function PaperScreen() {
     }
   }, []);
 
-  // Minimal client-side sanitizer: strip scripts/styles and inline event handlers
   const sanitized = useMemo(() => {
     const html = data?.content || "";
     try {
@@ -30,7 +28,6 @@ export default function PaperScreen() {
         el.remove();
       });
       doc.querySelectorAll("*").forEach((el) => {
-        // Remove on* event handler attributes
         Array.from(el.attributes).forEach((attr) => {
           if (/^on/i.test(attr.name)) {
             el.removeAttribute(attr.name);
@@ -43,7 +40,8 @@ export default function PaperScreen() {
     }
   }, [data?.content]);
 
-  // Build a simple Table of Contents and inject missing IDs into headings
+  const summaryId = "paper-summary";
+
   const { htmlWithIds, toc } = useMemo(() => {
     const container = document.createElement("div");
     container.innerHTML = sanitized;
@@ -74,8 +72,12 @@ export default function PaperScreen() {
       items.push({ id: unique, text, level: Number(el.tagName.substring(1)) });
     });
 
+    if (data?.summary?.trim()) {
+      items.unshift({ id: summaryId, text: "Summary", level: 1 });
+    }
+
     return { htmlWithIds: container.innerHTML, toc: items };
-  }, [sanitized]);
+  }, [sanitized, data?.summary]);
 
   if (!params.paperId) {
     navigate("/dashboard/papers");
@@ -112,6 +114,23 @@ export default function PaperScreen() {
               <CardTitle className="text-xl">Content</CardTitle>
             </CardHeader>
             <CardContent>
+              {data?.summary && (
+                <section id={summaryId} className="mb-6">
+                  <div className="rounded-lg p-[1px] bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]">
+                    <div className="rounded-lg bg-background/95 p-4">
+                      <div className="mb-2 flex items-center gap-2">
+                        <Sparkles className="h-4 w-4 text-[color:var(--primary)]" />
+                        <span className="inline-flex items-center rounded-full border border-[color:var(--primary)]/50 px-2 py-0.5 text-xs font-semibold text-[color:var(--primary)]">
+                          AI Summary
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground/90 whitespace-pre-line">
+                        {data.summary}
+                      </p>
+                    </div>
+                  </div>
+                </section>
+              )}
               <div className="rich-content">{renderSafeHtml(htmlWithIds)}</div>
             </CardContent>
           </Card>

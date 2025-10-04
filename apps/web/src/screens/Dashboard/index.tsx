@@ -1,4 +1,4 @@
-import PapersRow from "./Search/PapersRow";
+import PapersRow from "./PapersRow";
 
 export default function Dashboard() {
   return (
@@ -8,11 +8,11 @@ export default function Dashboard() {
         filters={{ sortBy: "createdAt", order: "desc", pageSize: 4 }}
       />
       <PapersRow
-        title="Alphabetical"
+        title="Recently Viewed"
         filters={{ sortBy: "title", order: "asc", pageSize: 4 }}
       />
       <PapersRow
-        title="Oldest First"
+        title="Popular Papers"
         filters={{ sortBy: "createdAt", order: "asc", pageSize: 4 }}
       />
     </div>

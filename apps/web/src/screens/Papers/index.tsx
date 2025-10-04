@@ -1,36 +1,20 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
 import { getPapersQuery } from "@/api/queries/paperQueries";
+import PaperCard from "@/components/PaperCard";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Papers() {
-  const { data: papersData, hasNextPage } = useInfiniteQuery(getPapersQuery());
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-
-  const totalItems = papersData ? papersData.length : 0;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-
-  console.log(papersData);
-
-  const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
+  const {
+    data: papers,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isFetchingNextPage,
+    isError,
+    refetch,
+  } = useInfiniteQuery(getPapersQuery());
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -42,69 +26,64 @@ export default function Papers() {
         </p>
       </div>
 
-      {/* Table Container */}
-      <div className="rounded-md border">
-        <Table>
-          <TableCaption className="py-4">
-            Scientific Publications ordered from A-Z • Showing{" "}
-            {Math.min(itemsPerPage, totalItems - startIndex)} of {totalItems}{" "}
-            papers
-          </TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[40%]">Title</TableHead>
-              <TableHead className="w-[15%]">ID</TableHead>
-              <TableHead className="w-[30%]">Authors</TableHead>
-              <TableHead className="w-[15%]">Reference URL</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {papersData?.map((paper) => (
-              <TableRow key={paper.id}>
-                <TableCell className="font-medium">{paper.title}</TableCell>
-                <TableCell>{paper.id}</TableCell>
-                <TableCell>{paper.authors.join(", ")}</TableCell>
-                <TableCell>
-                  <a
-                    href={paper.originalUrl}
-                    className="text-blue-600 hover:text-blue-800 underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View Paper
-                  </a>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      {/* Cards Grid */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {isLoading ? (
+          Array.from({ length: 8 }).map((_, i) => (
+            <Card key={i} className="overflow-hidden">
+              <Skeleton className="aspect-[16/9] w-full" />
+              <CardContent className="space-y-3 p-4">
+                <Skeleton className="h-5 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+                <div className="flex gap-2 pt-1">
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                  <Skeleton className="h-5 w-12 rounded-full" />
+                </div>
+                <div className="mt-2 flex gap-2">
+                  <Skeleton className="h-8 w-20" />
+                  <Skeleton className="h-8 w-12" />
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        ) : papers && papers.length > 0 ? (
+          papers.map((paper) => <PaperCard key={paper.id} paper={paper} />)
+        ) : isError ? (
+          <div className="col-span-full flex flex-col items-center justify-center rounded-md border p-8 text-center">
+            <p className="text-sm text-muted-foreground">
+              Couldn’t load papers. Please try again.
+            </p>
+            <Button
+              className="mt-3"
+              variant="outline"
+              onClick={() => refetch()}
+            >
+              Retry
+            </Button>
+          </div>
+        ) : (
+          <div className="col-span-full rounded-md border p-8 text-center text-sm text-muted-foreground">
+            No papers found.
+          </div>
+        )}
       </div>
 
-      {/* Pagination Controls */}
-      <div className="flex items-center justify-between">
-        <div className="text-sm text-muted-foreground">
-          Page {currentPage} of {currentPage}
-        </div>
-        <div className="flex items-center space-x-2">
+      {/* Infinite Pagination */}
+      <div className="flex items-center justify-center">
+        {hasNextPage ? (
           <Button
             variant="outline"
-            size="sm"
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            className="hover:text-white"
           >
-            <ChevronLeft className="h-4 w-4 mr-1" />
-            Previous
+            {isFetchingNextPage ? "Loading more…" : "Load more"}
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleNextPage}
-            disabled={!hasNextPage}
-          >
-            Next
-            <ChevronRight className="h-4 w-4 ml-1" />
-          </Button>
-        </div>
+        ) : (
+          <div className="text-sm text-muted-foreground">
+            You’ve reached the end.
+          </div>
+        )}
       </div>
     </div>
   );
