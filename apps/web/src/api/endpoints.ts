@@ -1,5 +1,5 @@
-import type { Paper, PapersFilters, PapersPage } from "@/types";
-import { get } from "./axiosClient";
+import type { Paper, PapersFilters, PapersPage, SearchResults } from "@/types";
+import { get, post } from "./axiosClient";
 
 export const paperService = {
   getAll: (page: number, filters: PapersFilters) =>
@@ -7,4 +7,9 @@ export const paperService = {
       params: { page, ...filters },
     }),
   getById: (id: string) => get<Paper>(`/papers/${id}`),
+  search: (q: string, fileData?: FormData) =>
+    post<SearchResults>("/papers/search", fileData, {
+      params: { q },
+      headers: { "Content-Type": "multipart/form-data" },
+    }),
 };

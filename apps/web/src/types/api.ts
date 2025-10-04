@@ -17,3 +17,8 @@ export type PapersFilters = {
   order?: "asc" | "desc";
   pageSize?: number;
 };
+
+export type SearchResults = {
+  papers: PaperPreview[];
+  summary: string;
+};

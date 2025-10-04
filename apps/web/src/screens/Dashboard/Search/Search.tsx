@@ -1,0 +1,110 @@
+import { ImageUp, Mic, SearchIcon, Sparkles } from "lucide-react";
+import { useRef, useState } from "react";
+import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import SearchSheet from "../SearchSheet";
+
+export default function Search() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [submittedQuery, setSubmittedQuery] = useState<string | null>(null);
+  const [isListening, setIsListening] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    setSubmittedQuery(searchQuery.trim());
+    setIsLoading(true);
+    setOpen(true);
+    setTimeout(() => setIsLoading(false), 800);
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const base = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
+      setSearchQuery(base);
+    }
+  };
+
+  const toggleMic = () => setIsListening((v) => !v);
+
+  const documents = submittedQuery
+    ? Array.from({ length: 5 }).map((_, i) => ({
+        id: i + 1,
+        title: `Relevant document ${i + 1} for "${submittedQuery}"`,
+        snippet:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        source: i % 2 === 0 ? "arXiv" : "PubMed",
+        year: 2020 + ((i * 3) % 5),
+      }))
+    : [];
+
+  return (
+    <div className="flex-1 max-w-3xl mx-auto w-full">
+      <form onSubmit={handleSearch}>
+        <div className="rounded-md p-[1px] transition-all duration-200 focus-within:shadow-[0_0_0_2px_color-mix(in_srgb,var(--primary)_10%,transparent)] focus-within:bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--primary)_35%,transparent),color-mix(in_srgb,var(--secondary)_25%,transparent),transparent)]">
+          <div className="flex items-center gap-2 rounded-md border border-muted-foreground/20 bg-muted/50 px-3 h-10 w-full transition-colors focus-within:border-[color:color-mix(in_srgb,var(--primary)_45%,var(--border))]">
+            <SearchIcon className="h-4 w-4 text-muted-foreground shrink-0" />
+            <Input
+              type="search"
+              placeholder="Search publications, authors, topics..."
+              className="flex-1 h-8 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {/* Right action buttons */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileSelected}
+            />
+            <Button
+              type="button"
+              size="icon"
+              variant="ghost"
+              onClick={handleUploadClick}
+              aria-label="Upload image"
+              title="Upload image"
+            >
+              <ImageUp className="h-4 w-4" />
+            </Button>
+            <Button
+              type="button"
+              size="icon"
+              variant={isListening ? "default" : "ghost"}
+              onClick={() => toast.warning("Comming soon!")}
+              aria-label="Voice message"
+              title="Voice message"
+            >
+              <Mic
+                className={`h-4 w-4 ${isListening ? "animate-pulse" : ""}`}
+              />
+            </Button>
+            <Button type="submit" className="h-8" variant="default">
+              Search
+            </Button>
+          </div>
+        </div>
+      </form>
+      <SearchSheet open={open} setOpen={setOpen} query={submittedQuery || ""} />
+    </div>
+  );
+}

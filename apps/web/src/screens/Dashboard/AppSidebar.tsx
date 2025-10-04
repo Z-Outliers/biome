@@ -1,6 +1,7 @@
 import { authClient } from "@repo/auth/client";
 import { Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react";
 import { useLocation } from "react-router";
+import { toast } from "sonner";
 import logo from "@/assets/logo.svg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -31,16 +32,13 @@ const items = [
     title: "Calendar",
     url: "/calendar",
     icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "/search",
-    icon: Search,
+    comingSoon: true,
   },
   {
     title: "Settings",
     url: "/settings",
     icon: Settings,
+    comingSoon: true,
   },
 ];
 
@@ -81,6 +79,10 @@ export default function AppSidebar() {
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       asChild
+                      onClick={(e) => {
+                        if (item.comingSoon) e.preventDefault();
+                        toast.warning("Coming soon!");
+                      }}
                       isActive={active}
                       className="data-[active=true]:border-l-2 data-[active=true]:border-[var(--primary)] data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground"
                     >

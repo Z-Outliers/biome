@@ -47,7 +47,7 @@ router.post("/search", upload.single("file"), async (req, res) => {
   }
 
   const papers = await searchPaperChunks(embeddings, 5);
-  res.json(papers);
+  res.json({ papers, summary: "Summary of the search results" });
 });
 
 export { router as papersRouter };

@@ -1,4 +1,4 @@
-import PapersRow from "./PapersRow";
+import PapersRow from "./Search/PapersRow";
 
 export default function Dashboard() {
   return (

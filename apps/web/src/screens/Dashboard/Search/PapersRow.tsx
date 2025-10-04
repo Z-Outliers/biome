@@ -2,7 +2,10 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
 import { getPapersQuery } from "@/api/queries/paperQueries";
 import PaperCard from "@/components/PaperCard";
+import { SkeletonCard } from "@/components/SkeletonCard";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import type { PapersFilters } from "@/types";
 
 export default function PapersRow({
@@ -12,7 +15,7 @@ export default function PapersRow({
   filters: PapersFilters;
   title: string;
 }) {
-  const { data } = useInfiniteQuery(getPapersQuery(filters));
+  const { data, isLoading } = useInfiniteQuery(getPapersQuery(filters));
 
   return (
     <section className="space-y-3 p-6">
@@ -27,13 +30,21 @@ export default function PapersRow({
       </div>
 
       <div className="relative">
-        <div className="flex gap-4">
-          {data?.map((paper) => (
-            <div key={paper.id}>
-              <PaperCard paper={paper} className="h-full" />
-            </div>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex gap-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        ) : (
+          <div className="flex gap-4">
+            {data?.map((paper) => (
+              <div key={paper.id}>
+                <PaperCard paper={paper} className="h-full" />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

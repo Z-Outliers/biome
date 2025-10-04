@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useTheme } from "@/providers/ThemeProvider";
-import Search from "./Search";
+import Search from "./Search/Search";
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();

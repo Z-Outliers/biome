@@ -48,7 +48,7 @@ export async function searchPaperChunks(embedding: number[], limit: number) {
     {
       chunkId: string;
       chunkText: string;
-      paperId: string;
+      id: string;
       thumbnail: string | null;
       authors: string[]; // adjust if your column is text/JSON
       similarity: number;
@@ -57,7 +57,7 @@ export async function searchPaperChunks(embedding: number[], limit: number) {
     SELECT
       pc.id AS "chunkId",
       pc."chunkText",
-      p.id AS "paperId",
+      p.id,
       p.thumbnail,
       p.title,
       p.abstract,
