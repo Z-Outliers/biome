@@ -44,3 +44,12 @@ export const getEmbeddingsFromAudio = async (audioBuffer: Buffer) => {
 
   return response.data.embedding as number[];
 };
+
+export const getSearchSummary = async (query: string, texts: string[]) => {
+  const response = await axios.post(`${EMBEDDING_BASE_URL}/summarize`, {
+    question: query,
+    top_k_texts: texts,
+  });
+
+  return response.data.answer as string;
+};

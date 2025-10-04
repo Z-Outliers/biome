@@ -4,6 +4,7 @@ import {
   getEmbeddingsFromAudio,
   getEmbeddingsFromImage,
   getEmbeddingsFromText,
+  getSearchSummary,
 } from "../services/embeddings.js";
 import {
   getPaginatedPapers,
@@ -47,7 +48,12 @@ router.post("/search", upload.single("file"), async (req, res) => {
   }
 
   const papers = await searchPaperChunks(embeddings, 5);
-  res.json({ papers, summary: "Summary of the search results" });
+
+  const summary = await getSearchSummary(
+    (req.query.q as string) ?? "",
+    papers.map((p) => p.chunkText),
+  );
+  res.json({ papers, summary });
 });
 
 export { router as papersRouter };
