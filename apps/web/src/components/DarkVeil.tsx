@@ -1,5 +1,5 @@
-import { useRef, useEffect } from "react";
-import { Renderer, Program, Mesh, Triangle, Vec2 } from "ogl";
+import { Mesh, Program, Renderer, Triangle, Vec2 } from "ogl";
+import { useEffect, useRef } from "react";
 
 const vertex = `
 attribute vec2 position;
@@ -94,63 +94,99 @@ export default function DarkVeil({
 }: Props) {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
-    const canvas = ref.current as HTMLCanvasElement;
-    const parent = canvas.parentElement as HTMLElement;
+    const canvas = ref.current as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const parent = canvas.parentElement as HTMLElement | null;
+    if (!parent) return;
 
-    const renderer = new Renderer({
-      dpr: Math.min(window.devicePixelRatio, 2),
-      canvas,
-    });
-
-    const gl = renderer.gl;
-    const geometry = new Triangle(gl);
-
-    const program = new Program(gl, {
-      vertex,
-      fragment,
-      uniforms: {
-        uTime: { value: 0 },
-        uResolution: { value: new Vec2() },
-        uHueShift: { value: hueShift },
-        uNoise: { value: noiseIntensity },
-        uScan: { value: scanlineIntensity },
-        uScanFreq: { value: scanlineFrequency },
-        uWarp: { value: warpAmount },
-      },
-    });
-
-    const mesh = new Mesh(gl, { geometry, program });
-
-    const resize = () => {
-      const w = parent.clientWidth,
-        h = parent.clientHeight;
-      renderer.setSize(w * resolutionScale, h * resolutionScale);
-      program.uniforms.uResolution.value.set(w, h);
-    };
-
-    window.addEventListener("resize", resize);
-    resize();
-
-    const start = performance.now();
+    let renderer: Renderer | null = null;
+    let program: Program | null = null;
+    let mesh: Mesh | null = null;
     let frame = 0;
+    let ro: ResizeObserver | null = null;
+    let handleResize: (() => void) | null = null;
 
-    const loop = () => {
-      program.uniforms.uTime.value =
-        ((performance.now() - start) / 1000) * speed;
-      program.uniforms.uHueShift.value = hueShift;
-      program.uniforms.uNoise.value = noiseIntensity;
-      program.uniforms.uScan.value = scanlineIntensity;
-      program.uniforms.uScanFreq.value = scanlineFrequency;
-      program.uniforms.uWarp.value = warpAmount;
-      renderer.render({ scene: mesh });
-      frame = requestAnimationFrame(loop);
-    };
+    // Ensure canvas doesn't block interactions
+    canvas.style.pointerEvents = "none";
 
-    loop();
+    try {
+      renderer = new Renderer({
+        dpr: Math.min(window.devicePixelRatio, 2),
+        canvas,
+      });
+
+      const gl = renderer.gl;
+      const geometry = new Triangle(gl);
+
+      program = new Program(gl, {
+        vertex,
+        fragment,
+        uniforms: {
+          uTime: { value: 0 },
+          uResolution: { value: new Vec2() },
+          uHueShift: { value: hueShift },
+          uNoise: { value: noiseIntensity },
+          uScan: { value: scanlineIntensity },
+          uScanFreq: { value: scanlineFrequency },
+          uWarp: { value: warpAmount },
+        },
+      });
+
+      mesh = new Mesh(gl, { geometry, program });
+
+      const resize = () => {
+        if (!renderer || !program) return;
+        const rect = parent.getBoundingClientRect();
+        const w = Math.max(1, Math.floor(rect.width));
+        const h = Math.max(1, Math.floor(rect.height));
+        renderer.setSize(w * resolutionScale, h * resolutionScale);
+        program.uniforms.uResolution.value.set(w, h);
+      };
+
+      handleResize = resize;
+      window.addEventListener("resize", handleResize);
+      // Observe parent size to handle first layout and container changes
+      if ("ResizeObserver" in window) {
+        ro = new ResizeObserver(() => handleResize?.());
+        ro.observe(parent);
+      }
+      handleResize();
+
+      const start = performance.now();
+
+      const loop = () => {
+        if (!renderer || !program || !mesh) return;
+        program.uniforms.uTime.value =
+          ((performance.now() - start) / 1000) * speed;
+        program.uniforms.uHueShift.value = hueShift;
+        program.uniforms.uNoise.value = noiseIntensity;
+        program.uniforms.uScan.value = scanlineIntensity;
+        program.uniforms.uScanFreq.value = scanlineFrequency;
+        program.uniforms.uWarp.value = warpAmount;
+        renderer.render({ scene: mesh });
+        frame = requestAnimationFrame(loop);
+      };
+
+      loop();
+    } catch (e) {
+      // Silently fail in environments without WebGL; gradient overlay remains visible
+      console.warn("DarkVeil: WebGL initialization failed", e);
+    }
 
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("resize", resize);
+      // Remove the same resize handler we added
+      // Note: if initialization failed, resize was never added
+      if (handleResize) {
+        try {
+          window.removeEventListener("resize", handleResize);
+        } catch {}
+      }
+      if (ro) ro.disconnect();
+      // Note: ogl doesn't expose a unified dispose; GC will collect when references drop
+      renderer = null;
+      program = null;
+      mesh = null;
     };
   }, [
     hueShift,

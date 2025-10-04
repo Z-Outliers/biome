@@ -19,10 +19,9 @@ type Props = {
 };
 
 export default function SearchSheet({ open, setOpen, query, fileData }: Props) {
-  console.log(query, fileData);
   const { data, isLoading } = useQuery(searchPapersQuery(query, fileData));
 
-  if (!query) return null;
+  if (!query && !fileData) return null;
 
   const truncate = (s: string, n = 140) => {
     if (!s) return "";
@@ -46,7 +45,9 @@ export default function SearchSheet({ open, setOpen, query, fileData }: Props) {
         className="dashboard-theme h-[80vh] w-full max-w-none sm:rounded-t-lg"
       >
         <SheetHeader className="sticky top-0 z-10 bg-background/80 backdrop-blur p-4 pb-2">
-          <SheetTitle>Results{query ? ` for "${query}"` : ""}</SheetTitle>
+          <SheetTitle>
+            Results for {query ? ` "${query}"` : "the provided image"}
+          </SheetTitle>
         </SheetHeader>
         <div className="flex-1 overflow-y-auto p-4 pt-3 space-y-6">
           {/* Summary section (special styling) */}
@@ -76,7 +77,7 @@ export default function SearchSheet({ open, setOpen, query, fileData }: Props) {
                       Here's a concise overview of the most relevant information
                       related to{" "}
                       <span className="font-medium text-foreground">
-                        "{query}"
+                        "{query ? query : "the provided image"}"
                       </span>
                     </p>
 

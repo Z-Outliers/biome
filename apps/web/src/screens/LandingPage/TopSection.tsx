@@ -1,18 +1,18 @@
 import { Link } from "react-router";
-import BlurText from "@/components/BlurText";
-import { Button } from "@/components/ui/button";
-import DarkVeil from "@/components/DarkVeil";
 import Logo from "@/assets/logo.svg";
+import BlurText from "@/components/BlurText";
+import DarkVeil from "@/components/DarkVeil";
+import { Button } from "@/components/ui/button";
 
 export default function TopSection() {
   return (
     <section className="w-screen h-[calc(100svh-4rem)] md:h-screen relative overflow-hidden">
-      <div className="absolute inset-0 -z-9">
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <DarkVeil hueShift={120} />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 via-black/40 to-transparent" />
       </div>
       {/* Content */}
-      <div className="max-w-7xl mx-auto h-full px-4 flex items-center">
+      <div className="relative z-20 max-w-7xl mx-auto h-full px-4 flex items-center">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full items-center">
           {/* Left: Text */}
           <div className="text-left space-y-8">
